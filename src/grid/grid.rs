@@ -15,8 +15,9 @@ pub fn Grid(cx: Scope) -> impl IntoView {
 
     view! {
       cx,
-      <div>"This is the grid component"</div>
-      {spots}
+      <div class="grid">
+        {spots}
+      </div>
     }
 }
 
