@@ -19,7 +19,7 @@ pub fn Spot(cx: Scope, spot_signal: SpotProp) -> impl IntoView {
     view! {
       cx,
       <div>
-        <button on:click=toggle>{spot}</button>
+        <button class=move || spot().to_string() on:click=toggle>{spot}</button>
       </div>
     }
 }

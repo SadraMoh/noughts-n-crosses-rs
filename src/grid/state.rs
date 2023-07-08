@@ -7,13 +7,19 @@ pub enum Mark {
     Empty,
 }
 
-impl IntoView for Mark {
-    fn into_view(self, cx: leptos::Scope) -> leptos::View {
+impl ToString for Mark {
+    fn to_string(&self) -> String {
         match self {
-            Mark::Nought => "0",
+            Mark::Nought => "o",
             Mark::Cross => "x",
             Mark::Empty => "",
         }
-        .into_view(cx)
+        .to_string()
+    }
+}
+
+impl IntoView for Mark {
+    fn into_view(self, cx: leptos::Scope) -> leptos::View {
+        self.to_string().into_view(cx)
     }
 }

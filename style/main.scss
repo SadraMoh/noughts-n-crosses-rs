@@ -1,6 +1,7 @@
 * {
 	margin: 0;
 	padding: 0;
+	font-family: monospace, 'Courier New', Courier;
 }
 
 body {
@@ -45,6 +46,16 @@ main {
 		background-color: #fff0;
 		height: 100%;
 		width: 100%;
+		font-size: 2rem;
+		user-select: none;
+	}
+
+	button.x {
+		color: magenta;
+	}
+
+	button.o {
+		color: cyan
 	}
 
 	button:hover {
