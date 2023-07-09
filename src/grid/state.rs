@@ -1,10 +1,20 @@
 use leptos::IntoView;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum Mark {
     Nought,
     Cross,
     Empty,
+}
+
+impl Mark {
+    pub fn opposite(&self) -> Self {
+        match self {
+            Mark::Nought => Mark::Cross,
+            Mark::Cross => Mark::Nought,
+            Mark::Empty => Mark::Empty,
+        }
+    }
 }
 
 impl ToString for Mark {

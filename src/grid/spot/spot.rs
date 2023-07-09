@@ -5,21 +5,32 @@ use crate::grid::Mark;
 use super::state::SpotProp;
 
 #[component]
-pub fn Spot(cx: Scope, spot_signal: SpotProp) -> impl IntoView {
+pub fn Spot(
+    cx: Scope,
+    spot_signal: SpotProp,
+    turn: ReadSignal<Mark>,
+    #[prop(default = None)] on_check: Option<Box<dyn Fn(Mark) -> ()>>,
+) -> impl IntoView {
     let (spot, set_spot) = spot_signal;
 
-    let toggle = move |_| {
-        set_spot(match spot() {
-            Mark::Empty => Mark::Nought,
-            Mark::Nought => Mark::Cross,
-            Mark::Cross => Mark::Nought,
-        })
+    let hey = move |_| {
+        // do not allow clicking on pre-occupied spots
+        if spot() != Mark::Empty {
+            return;
+        }
+
+        let new_mark = turn();
+        set_spot(new_mark.clone());
+
+        if let Some(callback) = &on_check {
+            callback(Mark::Cross)
+        }
     };
 
     view! {
       cx,
       <div>
-        <button class=move || spot().to_string() on:click=toggle>{spot}</button>
+        <button class=move || spot().to_string() on:click=hey>{spot}</button>
       </div>
     }
 }
