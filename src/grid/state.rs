@@ -1,6 +1,6 @@
 use leptos::IntoView;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 pub enum Mark {
     Nought,
     Cross,

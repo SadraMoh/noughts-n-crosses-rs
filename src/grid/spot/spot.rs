@@ -9,11 +9,11 @@ pub fn Spot(
     cx: Scope,
     spot_signal: SpotProp,
     turn: ReadSignal<Mark>,
-    #[prop(default = None)] on_check: Option<Box<dyn Fn(Mark) -> ()>>,
+    on_check: Box<dyn Fn(Mark)>,
 ) -> impl IntoView {
     let (spot, set_spot) = spot_signal;
 
-    let hey = move |_| {
+    let check = move |_| {
         // do not allow clicking on pre-occupied spots
         if spot() != Mark::Empty {
             return;
@@ -22,15 +22,13 @@ pub fn Spot(
         let new_mark = turn();
         set_spot(new_mark.clone());
 
-        if let Some(callback) = &on_check {
-            callback(Mark::Cross)
-        }
+        (on_check)(Mark::Cross)
     };
 
     view! {
       cx,
       <div>
-        <button class=move || spot().to_string() on:click=hey>{spot}</button>
+        <button class=move || spot().to_string() on:click=check>{spot}</button>
       </div>
     }
 }
