@@ -1,5 +1,5 @@
 <picture>
-    <img src="" alt="Noughts and Crosses screenshot">
+    <img src="https://github.com/SadraMoh/noughts-n-crosses-rs/blob/main/screenshot.png" alt="Noughts and Crosses screenshot">
 </picture>
 
 # Noughts & Crosses
