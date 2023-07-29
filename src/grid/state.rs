@@ -17,6 +17,12 @@ impl Mark {
     }
 }
 
+impl Default for Mark {
+    fn default() -> Self {
+        Mark::Empty
+    }
+}
+
 impl ToString for Mark {
     fn to_string(&self) -> String {
         match self {

@@ -14,7 +14,7 @@ pub fn Grid(cx: Scope) -> impl IntoView {
             .collect::<Vec<_>>(),
     );
 
-    let reset = move |_| {
+    let reset = move || {
         set_winner(Mark::Empty);
         spots().iter().for_each(|(_, set)| set(Mark::Empty));
     };
@@ -36,6 +36,11 @@ pub fn Grid(cx: Scope) -> impl IntoView {
                     let on_check = Box::new(move |_| {
                         let marks = &spots().iter().map(|(read, _)| read()).collect::<Vec<_>>()[0..9];
 
+                        if marks.iter().all(|f| *f != Mark::Empty) {
+                            reset();
+                            return;
+                        }
+
                         if check_for_winner(marks, turn()) {
                             set_winner(turn());
                             return;
@@ -53,7 +58,7 @@ pub fn Grid(cx: Scope) -> impl IntoView {
         </div>
         <button
             class=move || format!("reset {}", if winner() == Mark::Empty { "hidden" } else { "" })
-            on:click=reset
+            on:click=move |_| reset()
             >"Reset"</button>
       </div>
     }
