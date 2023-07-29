@@ -14,11 +14,21 @@ pub fn Grid(cx: Scope) -> impl IntoView {
             .collect::<Vec<_>>(),
     );
 
+    let reset = move |_| {
+        set_winner(Mark::Empty);
+        spots().iter().for_each(|(_, set)| set(Mark::Empty));
+    };
+
     view! {
       cx,
       <div class="container">
-        <div class=move || format!("winner {} {}", winner().to_string(), if winner() == Mark::Empty { "hidden" } else { "" })>
-            {move || winner().to_string()} " is the winner!"
+        <div class=move || format!(
+                "winner {} {}",
+                winner().to_string(),
+                if winner() == Mark::Empty { "hidden" } else { "" })
+            >
+            <b class="player">{move || winner().to_string()}</b>
+            "is the winner!"
         </div>
         <div class="grid">
             {
@@ -35,12 +45,16 @@ pub fn Grid(cx: Scope) -> impl IntoView {
                     });
 
                     view! { cx,
-                        <Spot spot_signal=*spot_signal turn on_check />
+                        <Spot spot_signal=*spot_signal turn winner on_check />
                     }
                 })
                 .collect::<Vec<_>>()
             }
         </div>
+        <button
+            class=move || format!("reset {}", if winner() == Mark::Empty { "hidden" } else { "" })
+            on:click=reset
+            >"Reset"</button>
       </div>
     }
 }

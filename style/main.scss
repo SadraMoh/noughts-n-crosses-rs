@@ -12,6 +12,8 @@ body {
 $border: 1px solid black;
 $spotSize: 4rem;
 
+$bg: #161923;
+
 main {
 	display: flex;
 	justify-content: center;
@@ -20,7 +22,7 @@ main {
 	border-bottom: $border;
 	width: 100vw;
 	height: 100vh;
-	background-color: #161923;
+	background-color: $bg;
 }
 
 .grid {
@@ -66,19 +68,49 @@ main {
 
 .winner {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	font-size: large;
 	align-items: center;
+	justify-content: space-around;
 	text-align: center;
 	padding: 4px;
 
+	b {
+		background-color: $bg;
+		font-size: x-large;
+		width: 30px;
+		height: 30px;
+	}
+
 	&.x {
 		background-color: magenta;
+
+		b {
+			color: magenta;
+		}
 	}
 
 	&.o {
 		background-color: cyan;
+
+		b {
+			color: cyan;
+		}
 	}
+}
+
+.reset {
+	padding: 8px;
+	font-size: larger;
+	background-color: lightgreen;
+	color: $bg;
+	cursor: pointer;
+
+	&:hover {
+		background-color: lighten(lightgreen, 12%);
+	}
+
+
 }
 
 .hidden:not(.visible) {
