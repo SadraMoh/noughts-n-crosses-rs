@@ -63,3 +63,30 @@ main {
 	}
 
 }
+
+.winner {
+	display: flex;
+	flex-direction: column;
+	font-size: large;
+	align-items: center;
+	text-align: center;
+	padding: 4px;
+
+	&.x {
+		background-color: magenta;
+	}
+
+	&.o {
+		background-color: cyan;
+	}
+}
+
+.hidden:not(.visible) {
+	display: none;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
