@@ -22,13 +22,13 @@ pub fn Grid(cx: Scope) -> impl IntoView {
     let on_check = Box::new(move |_| {
         let marks = &spots().iter().map(|(read, _)| read()).collect::<Vec<_>>()[0..9];
 
-        if marks.iter().all(|f| *f != Mark::Empty) {
-            reset();
+        if check_for_winner(marks, turn()) {
+            set_winner(turn());
             return;
         }
 
-        if check_for_winner(marks, turn()) {
-            set_winner(turn());
+        if marks.iter().all(|f| *f != Mark::Empty) {
+            reset();
             return;
         }
 
