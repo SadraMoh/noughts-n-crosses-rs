@@ -19,6 +19,22 @@ pub fn Grid(cx: Scope) -> impl IntoView {
         spots().iter().for_each(|(_, set)| set(Mark::Empty));
     };
 
+    let on_check = Box::new(move |_| {
+        let marks = &spots().iter().map(|(read, _)| read()).collect::<Vec<_>>()[0..9];
+
+        if marks.iter().all(|f| *f != Mark::Empty) {
+            reset();
+            return;
+        }
+
+        if check_for_winner(marks, turn()) {
+            set_winner(turn());
+            return;
+        }
+
+        set_turn.update(|turn| *turn = turn.opposite());
+    });
+
     view! {
       cx,
       <div class="container">
@@ -32,25 +48,9 @@ pub fn Grid(cx: Scope) -> impl IntoView {
         </div>
         <div class="grid">
             {
-                spots().iter().map(move |spot_signal| {
-                    let on_check = Box::new(move |_| {
-                        let marks = &spots().iter().map(|(read, _)| read()).collect::<Vec<_>>()[0..9];
-
-                        if marks.iter().all(|f| *f != Mark::Empty) {
-                            reset();
-                            return;
-                        }
-
-                        if check_for_winner(marks, turn()) {
-                            set_winner(turn());
-                            return;
-                        }
-
-                        set_turn.update(|turn| *turn = turn.opposite());
-                    });
-
+                spots().iter().map(|spot_signal| {
                     view! { cx,
-                        <Spot spot_signal=*spot_signal turn winner on_check />
+                        <Spot spot_signal=*spot_signal turn winner on_check=on_check.clone() />
                     }
                 })
                 .collect::<Vec<_>>()
